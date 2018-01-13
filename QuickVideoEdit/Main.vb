@@ -2,6 +2,8 @@
 
     Private mdtCombineVideos As DataTable = Nothing
     Private mbolSaveState As Boolean = False
+    Private mintSpliceCount As Integer = 1
+    Private WithEvents mPlayer As PlayVideo = New PlayVideo
 
 #Region " Form Events "
 
@@ -40,6 +42,8 @@
             txtRemoveAudioDest.Text = My.Settings.LastRemoveAudioDest
             txtRotateVideoDest.Text = My.Settings.LastRotateVideoDest
             txtRotateVideoSource.Text = My.Settings.LastRotateVideoSource
+            txtSpliceSource.Text = My.Settings.LastSpliceVideoSource
+            txtSpliceDest.Text = My.Settings.LastSpliceVideoDest
 
             Select Case My.Settings.LastRotate
                 Case 1
@@ -100,6 +104,20 @@
 
         End If
 
+    End Sub
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+
+        Try
+
+            If mPlayer IsNot Nothing Then
+                mPlayer.Dispose()
+                mPlayer = Nothing
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
 #End Region
@@ -635,6 +653,77 @@
 
     End Sub
 
+    Private Sub btnSpliceSource_Click(sender As Object, e As EventArgs) Handles btnSpliceSource.Click
+
+        Try
+
+            Using open As New OpenFileDialog
+
+                open.CheckFileExists = True
+                open.CheckPathExists = True
+                open.Filter = "Video Files(*.mpeg;*.mpg;*.mp4;*.avi;*.mov)|*.mpeg;*.mpg;*.mp4;*.avi;*.mov|All Files(*.*)|*.*"
+                open.FilterIndex = 0
+                Try
+                    open.InitialDirectory = IO.Path.GetDirectoryName(My.Settings.LastSpliceVideoSource)
+                Catch ex As Exception
+                End Try
+                open.Title = "Open Video to Splice"
+                Select Case open.ShowDialog()
+                    Case DialogResult.Cancel
+                        Return
+                End Select
+
+                mintSpliceCount = 1
+
+                txtSpliceSource.Text = open.FileName
+                txtSpliceDest.Text = IO.Path.Combine(IO.Path.GetDirectoryName(open.FileName),
+                                                        IO.Path.GetFileNameWithoutExtension(open.FileName) &
+                                                        " - Cut" & mintSpliceCount &
+                                                        IO.Path.GetExtension(open.FileName))
+                My.Settings.LastSpliceVideoSource = open.FileName
+                My.Settings.Save()
+
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceDest_Click(sender As Object, e As EventArgs) Handles btnSpliceDest.Click
+
+        Try
+
+            Using save As New SaveFileDialog
+
+                save.CheckPathExists = True
+                save.Filter = "Video Files(*.mpeg;*.mpg;*.mp4;*.avi;*.mov)|*.mpeg;*.mpg;*.mp4;*.avi;*.mov|All Files(*.*)|*.*"
+                save.FilterIndex = 0
+                Try
+                    save.InitialDirectory = IO.Path.GetDirectoryName(My.Settings.LastSpliceVideoDest)
+                Catch ex As Exception
+                End Try
+                save.Title = "Save Spliced Video/Audio"
+                save.OverwritePrompt = False
+                Select Case save.ShowDialog()
+                    Case DialogResult.Cancel
+                        Return
+                End Select
+
+                mintSpliceCount = 1
+
+                txtSpliceDest.Text = save.FileName
+                My.Settings.LastSpliceVideoDest = save.FileName
+                My.Settings.Save()
+
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+    End Sub
 
     Private Sub btnCombineOutputPath_Click(sender As Object, e As EventArgs) Handles btnCombineOutputPath.Click
 
@@ -661,6 +750,29 @@
                 My.Settings.Save()
 
             End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceLoad_Click(sender As Object, e As EventArgs) Handles btnSpliceLoad.Click
+
+        Try
+
+            mPlayer.Reset()
+            trkSplice.Minimum = 0
+            trkSplice.Value = 0
+            trkSplice.Maximum = 0
+            mPlayer.MediaFilePath = txtSpliceSource.Text
+            mPlayer.Renderer.Handle = pnlVideo.Handle
+            mPlayer.Renderer.KeepAspectRatio = True
+            If Not mPlayer.LoadMedia Then
+                mPlayer.Reset()
+            Else
+                trkSplice.Maximum = mPlayer.TotalTime
+            End If
 
         Catch ex As Exception
             MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -752,6 +864,13 @@
 #End Region
 
 #Region " Functions "
+
+    Private Sub UpdateTime(value As Decimal)
+
+        Dim ts As TimeSpan = New TimeSpan(value)
+        lblSpliceCurrentTime.Text = ts.Hours.ToString("00") & ":" & ts.Minutes.ToString("00") & ":" & ts.Seconds.ToString("00") & "." & ts.Milliseconds.ToString("000")
+
+    End Sub
 
     Private Sub WriteXML()
 
@@ -848,6 +967,60 @@
             My.Settings.Save()
 
         End If
+
+    End Sub
+
+    Private Sub pnlVideo_MouseClick(sender As Object, e As MouseEventArgs) Handles pnlVideo.MouseClick
+
+        Try
+
+            If mPlayer IsNot Nothing Then
+
+                If mPlayer.isPlaying Then
+                    mPlayer.Pause()
+                Else
+                    mPlayer.Play()
+                End If
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub mPlayer_TimeChanged(sender As Object, e As EventArgs) Handles mPlayer.TimeChanged
+
+        If mPlayer Is Nothing Then
+            Return
+        End If
+
+        Dim decValue As Decimal = mPlayer.CurrentTime
+        If decValue >= 0 Then
+
+            trkSplice.Value = decValue
+            Call UpdateTime(decValue)
+
+        End If
+    End Sub
+
+    Private Sub mPlayer_PlaybackFinished(sender As Object, LastTime As Decimal, e As EventArgs) Handles mPlayer.PlaybackFinished
+
+        If mPlayer Is Nothing Then
+            Return
+        End If
+
+        mPlayer.Pause()
+
+    End Sub
+
+    Private Sub trkSplice_Scroll(sender As Object, e As EventArgs) Handles trkSplice.Scroll
+
+        If mPlayer Is Nothing Then
+            Return
+        End If
+
+        mPlayer.CurrentTime = trkSplice.Value
 
     End Sub
 

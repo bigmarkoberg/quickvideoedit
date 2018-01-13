@@ -51,6 +51,16 @@ Partial Class Main
         Me.btnRotateVideoSource = New System.Windows.Forms.Button()
         Me.txtRotateVideoSource = New System.Windows.Forms.TextBox()
         Me.lblRotateVideoSource = New System.Windows.Forms.Label()
+        Me.tpgSplice = New System.Windows.Forms.TabPage()
+        Me.trkSplice = New System.Windows.Forms.TrackBar()
+        Me.pnlVideo = New System.Windows.Forms.Panel()
+        Me.btnSpliceLoad = New System.Windows.Forms.Button()
+        Me.btnSpliceDest = New System.Windows.Forms.Button()
+        Me.txtSpliceDest = New System.Windows.Forms.TextBox()
+        Me.lblSpliceDest = New System.Windows.Forms.Label()
+        Me.btnSpliceSource = New System.Windows.Forms.Button()
+        Me.txtSpliceSource = New System.Windows.Forms.TextBox()
+        Me.lblSpliceSource = New System.Windows.Forms.Label()
         Me.tpgConsole = New System.Windows.Forms.TabPage()
         Me.txtConsole = New System.Windows.Forms.TextBox()
         Me.tpgAbout = New System.Windows.Forms.TabPage()
@@ -59,11 +69,14 @@ Partial Class Main
         Me.slblCombineStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.slblRemoveAudioStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.slblRotateVideoStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.lblSpliceCurrentTime = New System.Windows.Forms.Label()
         Me.tabOperations.SuspendLayout()
         Me.tpgCombine.SuspendLayout()
         CType(Me.dgvCombineVideos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpgSilence.SuspendLayout()
         Me.tpgRotate.SuspendLayout()
+        Me.tpgSplice.SuspendLayout()
+        CType(Me.trkSplice, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tpgConsole.SuspendLayout()
         Me.tpgAbout.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -77,12 +90,13 @@ Partial Class Main
         Me.tabOperations.Controls.Add(Me.tpgCombine)
         Me.tabOperations.Controls.Add(Me.tpgSilence)
         Me.tabOperations.Controls.Add(Me.tpgRotate)
+        Me.tabOperations.Controls.Add(Me.tpgSplice)
         Me.tabOperations.Controls.Add(Me.tpgConsole)
         Me.tabOperations.Controls.Add(Me.tpgAbout)
         Me.tabOperations.Location = New System.Drawing.Point(0, 0)
         Me.tabOperations.Name = "tabOperations"
         Me.tabOperations.SelectedIndex = 0
-        Me.tabOperations.Size = New System.Drawing.Size(640, 473)
+        Me.tabOperations.Size = New System.Drawing.Size(744, 542)
         Me.tabOperations.TabIndex = 0
         '
         'tpgCombine
@@ -96,7 +110,7 @@ Partial Class Main
         Me.tpgCombine.Location = New System.Drawing.Point(4, 22)
         Me.tpgCombine.Name = "tpgCombine"
         Me.tpgCombine.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpgCombine.Size = New System.Drawing.Size(632, 447)
+        Me.tpgCombine.Size = New System.Drawing.Size(736, 516)
         Me.tpgCombine.TabIndex = 0
         Me.tpgCombine.Text = "Combine Videos"
         Me.tpgCombine.UseVisualStyleBackColor = True
@@ -104,7 +118,7 @@ Partial Class Main
         'btnCombineOutputPath
         '
         Me.btnCombineOutputPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCombineOutputPath.Location = New System.Drawing.Point(451, 6)
+        Me.btnCombineOutputPath.Location = New System.Drawing.Point(555, 6)
         Me.btnCombineOutputPath.Name = "btnCombineOutputPath"
         Me.btnCombineOutputPath.Size = New System.Drawing.Size(37, 23)
         Me.btnCombineOutputPath.TabIndex = 6
@@ -126,13 +140,13 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtCombineOutputPath.Location = New System.Drawing.Point(147, 8)
         Me.txtCombineOutputPath.Name = "txtCombineOutputPath"
-        Me.txtCombineOutputPath.Size = New System.Drawing.Size(298, 20)
+        Me.txtCombineOutputPath.Size = New System.Drawing.Size(402, 20)
         Me.txtCombineOutputPath.TabIndex = 4
         '
         'btnCombine
         '
         Me.btnCombine.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCombine.Location = New System.Drawing.Point(549, 6)
+        Me.btnCombine.Location = New System.Drawing.Point(653, 6)
         Me.btnCombine.Name = "btnCombine"
         Me.btnCombine.Size = New System.Drawing.Size(75, 23)
         Me.btnCombine.TabIndex = 3
@@ -151,7 +165,7 @@ Partial Class Main
         Me.dgvCombineVideos.Location = New System.Drawing.Point(8, 35)
         Me.dgvCombineVideos.Name = "dgvCombineVideos"
         Me.dgvCombineVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvCombineVideos.Size = New System.Drawing.Size(616, 409)
+        Me.dgvCombineVideos.Size = New System.Drawing.Size(720, 478)
         Me.dgvCombineVideos.TabIndex = 2
         '
         'btnAddCombineVideos
@@ -175,7 +189,7 @@ Partial Class Main
         Me.tpgSilence.Location = New System.Drawing.Point(4, 22)
         Me.tpgSilence.Name = "tpgSilence"
         Me.tpgSilence.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpgSilence.Size = New System.Drawing.Size(632, 447)
+        Me.tpgSilence.Size = New System.Drawing.Size(736, 516)
         Me.tpgSilence.TabIndex = 1
         Me.tpgSilence.Text = "Remove Audio"
         Me.tpgSilence.UseVisualStyleBackColor = True
@@ -183,7 +197,7 @@ Partial Class Main
         'btnRemoveAudioProcess
         '
         Me.btnRemoveAudioProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveAudioProcess.Location = New System.Drawing.Point(508, 70)
+        Me.btnRemoveAudioProcess.Location = New System.Drawing.Point(612, 70)
         Me.btnRemoveAudioProcess.Name = "btnRemoveAudioProcess"
         Me.btnRemoveAudioProcess.Size = New System.Drawing.Size(75, 23)
         Me.btnRemoveAudioProcess.TabIndex = 11
@@ -193,7 +207,7 @@ Partial Class Main
         'btnRemoveAudioDest
         '
         Me.btnRemoveAudioDest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveAudioDest.Location = New System.Drawing.Point(589, 30)
+        Me.btnRemoveAudioDest.Location = New System.Drawing.Point(693, 30)
         Me.btnRemoveAudioDest.Name = "btnRemoveAudioDest"
         Me.btnRemoveAudioDest.Size = New System.Drawing.Size(37, 23)
         Me.btnRemoveAudioDest.TabIndex = 10
@@ -206,7 +220,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtRemoveAudioDest.Location = New System.Drawing.Point(106, 32)
         Me.txtRemoveAudioDest.Name = "txtRemoveAudioDest"
-        Me.txtRemoveAudioDest.Size = New System.Drawing.Size(477, 20)
+        Me.txtRemoveAudioDest.Size = New System.Drawing.Size(581, 20)
         Me.txtRemoveAudioDest.TabIndex = 9
         '
         'lblRemoveAudioDest
@@ -221,7 +235,7 @@ Partial Class Main
         'btnRemoveAudioSource
         '
         Me.btnRemoveAudioSource.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveAudioSource.Location = New System.Drawing.Point(589, 4)
+        Me.btnRemoveAudioSource.Location = New System.Drawing.Point(693, 4)
         Me.btnRemoveAudioSource.Name = "btnRemoveAudioSource"
         Me.btnRemoveAudioSource.Size = New System.Drawing.Size(37, 23)
         Me.btnRemoveAudioSource.TabIndex = 7
@@ -234,7 +248,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtRemoveAudioSource.Location = New System.Drawing.Point(106, 6)
         Me.txtRemoveAudioSource.Name = "txtRemoveAudioSource"
-        Me.txtRemoveAudioSource.Size = New System.Drawing.Size(477, 20)
+        Me.txtRemoveAudioSource.Size = New System.Drawing.Size(581, 20)
         Me.txtRemoveAudioSource.TabIndex = 1
         '
         'lblRemoveAudioSource
@@ -261,7 +275,7 @@ Partial Class Main
         Me.tpgRotate.Controls.Add(Me.lblRotateVideoSource)
         Me.tpgRotate.Location = New System.Drawing.Point(4, 22)
         Me.tpgRotate.Name = "tpgRotate"
-        Me.tpgRotate.Size = New System.Drawing.Size(632, 447)
+        Me.tpgRotate.Size = New System.Drawing.Size(736, 516)
         Me.tpgRotate.TabIndex = 2
         Me.tpgRotate.Text = "Rotate Video"
         Me.tpgRotate.UseVisualStyleBackColor = True
@@ -313,7 +327,7 @@ Partial Class Main
         'btnRotateProcess
         '
         Me.btnRotateProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRotateProcess.Location = New System.Drawing.Point(508, 82)
+        Me.btnRotateProcess.Location = New System.Drawing.Point(612, 82)
         Me.btnRotateProcess.Name = "btnRotateProcess"
         Me.btnRotateProcess.Size = New System.Drawing.Size(75, 23)
         Me.btnRotateProcess.TabIndex = 18
@@ -323,7 +337,7 @@ Partial Class Main
         'btnRotateVideoDest
         '
         Me.btnRotateVideoDest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRotateVideoDest.Location = New System.Drawing.Point(589, 30)
+        Me.btnRotateVideoDest.Location = New System.Drawing.Point(693, 30)
         Me.btnRotateVideoDest.Name = "btnRotateVideoDest"
         Me.btnRotateVideoDest.Size = New System.Drawing.Size(37, 23)
         Me.btnRotateVideoDest.TabIndex = 17
@@ -336,7 +350,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtRotateVideoDest.Location = New System.Drawing.Point(106, 32)
         Me.txtRotateVideoDest.Name = "txtRotateVideoDest"
-        Me.txtRotateVideoDest.Size = New System.Drawing.Size(477, 20)
+        Me.txtRotateVideoDest.Size = New System.Drawing.Size(581, 20)
         Me.txtRotateVideoDest.TabIndex = 16
         '
         'lblRotateVideoDest
@@ -351,7 +365,7 @@ Partial Class Main
         'btnRotateVideoSource
         '
         Me.btnRotateVideoSource.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRotateVideoSource.Location = New System.Drawing.Point(589, 4)
+        Me.btnRotateVideoSource.Location = New System.Drawing.Point(693, 4)
         Me.btnRotateVideoSource.Name = "btnRotateVideoSource"
         Me.btnRotateVideoSource.Size = New System.Drawing.Size(37, 23)
         Me.btnRotateVideoSource.TabIndex = 14
@@ -364,7 +378,7 @@ Partial Class Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtRotateVideoSource.Location = New System.Drawing.Point(106, 6)
         Me.txtRotateVideoSource.Name = "txtRotateVideoSource"
-        Me.txtRotateVideoSource.Size = New System.Drawing.Size(477, 20)
+        Me.txtRotateVideoSource.Size = New System.Drawing.Size(581, 20)
         Me.txtRotateVideoSource.TabIndex = 13
         '
         'lblRotateVideoSource
@@ -376,13 +390,118 @@ Partial Class Main
         Me.lblRotateVideoSource.TabIndex = 12
         Me.lblRotateVideoSource.Text = "Video Source:"
         '
+        'tpgSplice
+        '
+        Me.tpgSplice.Controls.Add(Me.lblSpliceCurrentTime)
+        Me.tpgSplice.Controls.Add(Me.trkSplice)
+        Me.tpgSplice.Controls.Add(Me.pnlVideo)
+        Me.tpgSplice.Controls.Add(Me.btnSpliceLoad)
+        Me.tpgSplice.Controls.Add(Me.btnSpliceDest)
+        Me.tpgSplice.Controls.Add(Me.txtSpliceDest)
+        Me.tpgSplice.Controls.Add(Me.lblSpliceDest)
+        Me.tpgSplice.Controls.Add(Me.btnSpliceSource)
+        Me.tpgSplice.Controls.Add(Me.txtSpliceSource)
+        Me.tpgSplice.Controls.Add(Me.lblSpliceSource)
+        Me.tpgSplice.Location = New System.Drawing.Point(4, 22)
+        Me.tpgSplice.Name = "tpgSplice"
+        Me.tpgSplice.Size = New System.Drawing.Size(736, 516)
+        Me.tpgSplice.TabIndex = 5
+        Me.tpgSplice.Text = "Splice"
+        Me.tpgSplice.UseVisualStyleBackColor = True
+        '
+        'trkSplice
+        '
+        Me.trkSplice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.trkSplice.Location = New System.Drawing.Point(8, 417)
+        Me.trkSplice.Name = "trkSplice"
+        Me.trkSplice.Size = New System.Drawing.Size(720, 45)
+        Me.trkSplice.TabIndex = 0
+        Me.trkSplice.TickStyle = System.Windows.Forms.TickStyle.None
+        '
+        'pnlVideo
+        '
+        Me.pnlVideo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlVideo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlVideo.Location = New System.Drawing.Point(8, 86)
+        Me.pnlVideo.Name = "pnlVideo"
+        Me.pnlVideo.Size = New System.Drawing.Size(720, 325)
+        Me.pnlVideo.TabIndex = 25
+        '
+        'btnSpliceLoad
+        '
+        Me.btnSpliceLoad.Location = New System.Drawing.Point(104, 57)
+        Me.btnSpliceLoad.Name = "btnSpliceLoad"
+        Me.btnSpliceLoad.Size = New System.Drawing.Size(75, 23)
+        Me.btnSpliceLoad.TabIndex = 24
+        Me.btnSpliceLoad.Text = "Load"
+        Me.btnSpliceLoad.UseVisualStyleBackColor = True
+        '
+        'btnSpliceDest
+        '
+        Me.btnSpliceDest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSpliceDest.Location = New System.Drawing.Point(691, 29)
+        Me.btnSpliceDest.Name = "btnSpliceDest"
+        Me.btnSpliceDest.Size = New System.Drawing.Size(37, 23)
+        Me.btnSpliceDest.TabIndex = 23
+        Me.btnSpliceDest.Text = "..."
+        Me.btnSpliceDest.UseVisualStyleBackColor = True
+        '
+        'txtSpliceDest
+        '
+        Me.txtSpliceDest.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSpliceDest.Location = New System.Drawing.Point(104, 31)
+        Me.txtSpliceDest.Name = "txtSpliceDest"
+        Me.txtSpliceDest.Size = New System.Drawing.Size(581, 20)
+        Me.txtSpliceDest.TabIndex = 22
+        '
+        'lblSpliceDest
+        '
+        Me.lblSpliceDest.AutoSize = True
+        Me.lblSpliceDest.Location = New System.Drawing.Point(5, 34)
+        Me.lblSpliceDest.Name = "lblSpliceDest"
+        Me.lblSpliceDest.Size = New System.Drawing.Size(93, 13)
+        Me.lblSpliceDest.TabIndex = 21
+        Me.lblSpliceDest.Text = "Video Destination:"
+        '
+        'btnSpliceSource
+        '
+        Me.btnSpliceSource.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSpliceSource.Location = New System.Drawing.Point(691, 3)
+        Me.btnSpliceSource.Name = "btnSpliceSource"
+        Me.btnSpliceSource.Size = New System.Drawing.Size(37, 23)
+        Me.btnSpliceSource.TabIndex = 20
+        Me.btnSpliceSource.Text = "..."
+        Me.btnSpliceSource.UseVisualStyleBackColor = True
+        '
+        'txtSpliceSource
+        '
+        Me.txtSpliceSource.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSpliceSource.Location = New System.Drawing.Point(104, 5)
+        Me.txtSpliceSource.Name = "txtSpliceSource"
+        Me.txtSpliceSource.Size = New System.Drawing.Size(581, 20)
+        Me.txtSpliceSource.TabIndex = 19
+        '
+        'lblSpliceSource
+        '
+        Me.lblSpliceSource.AutoSize = True
+        Me.lblSpliceSource.Location = New System.Drawing.Point(24, 8)
+        Me.lblSpliceSource.Name = "lblSpliceSource"
+        Me.lblSpliceSource.Size = New System.Drawing.Size(74, 13)
+        Me.lblSpliceSource.TabIndex = 18
+        Me.lblSpliceSource.Text = "Video Source:"
+        '
         'tpgConsole
         '
         Me.tpgConsole.Controls.Add(Me.txtConsole)
         Me.tpgConsole.Location = New System.Drawing.Point(4, 22)
         Me.tpgConsole.Name = "tpgConsole"
         Me.tpgConsole.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpgConsole.Size = New System.Drawing.Size(632, 447)
+        Me.tpgConsole.Size = New System.Drawing.Size(736, 516)
         Me.tpgConsole.TabIndex = 3
         Me.tpgConsole.Text = "Console"
         Me.tpgConsole.UseVisualStyleBackColor = True
@@ -393,7 +512,7 @@ Partial Class Main
         Me.txtConsole.Location = New System.Drawing.Point(3, 3)
         Me.txtConsole.Multiline = True
         Me.txtConsole.Name = "txtConsole"
-        Me.txtConsole.Size = New System.Drawing.Size(626, 441)
+        Me.txtConsole.Size = New System.Drawing.Size(730, 510)
         Me.txtConsole.TabIndex = 0
         '
         'tpgAbout
@@ -402,7 +521,7 @@ Partial Class Main
         Me.tpgAbout.Location = New System.Drawing.Point(4, 22)
         Me.tpgAbout.Name = "tpgAbout"
         Me.tpgAbout.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpgAbout.Size = New System.Drawing.Size(632, 447)
+        Me.tpgAbout.Size = New System.Drawing.Size(736, 516)
         Me.tpgAbout.TabIndex = 4
         Me.tpgAbout.Text = "About"
         Me.tpgAbout.UseVisualStyleBackColor = True
@@ -412,16 +531,16 @@ Partial Class Main
         Me.lblAbout.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblAbout.Location = New System.Drawing.Point(3, 3)
         Me.lblAbout.Name = "lblAbout"
-        Me.lblAbout.Size = New System.Drawing.Size(626, 441)
+        Me.lblAbout.Size = New System.Drawing.Size(730, 510)
         Me.lblAbout.TabIndex = 0
         Me.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.slblCombineStatus, Me.slblRemoveAudioStatus, Me.slblRotateVideoStatus})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 476)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 545)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(640, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(744, 22)
         Me.StatusStrip1.TabIndex = 1
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -440,11 +559,19 @@ Partial Class Main
         Me.slblRotateVideoStatus.Name = "slblRotateVideoStatus"
         Me.slblRotateVideoStatus.Size = New System.Drawing.Size(0, 17)
         '
+        'lblSpliceCurrentTime
+        '
+        Me.lblSpliceCurrentTime.AutoSize = True
+        Me.lblSpliceCurrentTime.Location = New System.Drawing.Point(185, 62)
+        Me.lblSpliceCurrentTime.Name = "lblSpliceCurrentTime"
+        Me.lblSpliceCurrentTime.Size = New System.Drawing.Size(0, 13)
+        Me.lblSpliceCurrentTime.TabIndex = 26
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(640, 498)
+        Me.ClientSize = New System.Drawing.Size(744, 567)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.tabOperations)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -458,6 +585,9 @@ Partial Class Main
         Me.tpgSilence.PerformLayout()
         Me.tpgRotate.ResumeLayout(False)
         Me.tpgRotate.PerformLayout()
+        Me.tpgSplice.ResumeLayout(False)
+        Me.tpgSplice.PerformLayout()
+        CType(Me.trkSplice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpgConsole.ResumeLayout(False)
         Me.tpgConsole.PerformLayout()
         Me.tpgAbout.ResumeLayout(False)
@@ -504,4 +634,15 @@ Partial Class Main
     Friend WithEvents slblRotateVideoStatus As ToolStripStatusLabel
     Friend WithEvents tpgAbout As TabPage
     Friend WithEvents lblAbout As Label
+    Friend WithEvents tpgSplice As TabPage
+    Friend WithEvents btnSpliceDest As Button
+    Friend WithEvents txtSpliceDest As TextBox
+    Friend WithEvents lblSpliceDest As Label
+    Friend WithEvents btnSpliceSource As Button
+    Friend WithEvents txtSpliceSource As TextBox
+    Friend WithEvents lblSpliceSource As Label
+    Friend WithEvents pnlVideo As Panel
+    Friend WithEvents btnSpliceLoad As Button
+    Friend WithEvents trkSplice As TrackBar
+    Friend WithEvents lblSpliceCurrentTime As Label
 End Class
