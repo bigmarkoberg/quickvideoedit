@@ -1,0 +1,507 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class Main
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
+        Me.tabOperations = New System.Windows.Forms.TabControl()
+        Me.tpgCombine = New System.Windows.Forms.TabPage()
+        Me.btnCombineOutputPath = New System.Windows.Forms.Button()
+        Me.lblOutput = New System.Windows.Forms.Label()
+        Me.txtCombineOutputPath = New System.Windows.Forms.TextBox()
+        Me.btnCombine = New System.Windows.Forms.Button()
+        Me.dgvCombineVideos = New System.Windows.Forms.DataGridView()
+        Me.btnAddCombineVideos = New System.Windows.Forms.Button()
+        Me.tpgSilence = New System.Windows.Forms.TabPage()
+        Me.btnRemoveAudioProcess = New System.Windows.Forms.Button()
+        Me.btnRemoveAudioDest = New System.Windows.Forms.Button()
+        Me.txtRemoveAudioDest = New System.Windows.Forms.TextBox()
+        Me.lblRemoveAudioDest = New System.Windows.Forms.Label()
+        Me.btnRemoveAudioSource = New System.Windows.Forms.Button()
+        Me.txtRemoveAudioSource = New System.Windows.Forms.TextBox()
+        Me.lblRemoveAudioSource = New System.Windows.Forms.Label()
+        Me.tpgRotate = New System.Windows.Forms.TabPage()
+        Me.optCounterClockFlip = New System.Windows.Forms.RadioButton()
+        Me.optClock = New System.Windows.Forms.RadioButton()
+        Me.optCounterClock = New System.Windows.Forms.RadioButton()
+        Me.optClockFlip = New System.Windows.Forms.RadioButton()
+        Me.btnRotateProcess = New System.Windows.Forms.Button()
+        Me.btnRotateVideoDest = New System.Windows.Forms.Button()
+        Me.txtRotateVideoDest = New System.Windows.Forms.TextBox()
+        Me.lblRotateVideoDest = New System.Windows.Forms.Label()
+        Me.btnRotateVideoSource = New System.Windows.Forms.Button()
+        Me.txtRotateVideoSource = New System.Windows.Forms.TextBox()
+        Me.lblRotateVideoSource = New System.Windows.Forms.Label()
+        Me.tpgConsole = New System.Windows.Forms.TabPage()
+        Me.txtConsole = New System.Windows.Forms.TextBox()
+        Me.tpgAbout = New System.Windows.Forms.TabPage()
+        Me.lblAbout = New System.Windows.Forms.Label()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.slblCombineStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.slblRemoveAudioStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.slblRotateVideoStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.tabOperations.SuspendLayout()
+        Me.tpgCombine.SuspendLayout()
+        CType(Me.dgvCombineVideos, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tpgSilence.SuspendLayout()
+        Me.tpgRotate.SuspendLayout()
+        Me.tpgConsole.SuspendLayout()
+        Me.tpgAbout.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tabOperations
+        '
+        Me.tabOperations.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tabOperations.Controls.Add(Me.tpgCombine)
+        Me.tabOperations.Controls.Add(Me.tpgSilence)
+        Me.tabOperations.Controls.Add(Me.tpgRotate)
+        Me.tabOperations.Controls.Add(Me.tpgConsole)
+        Me.tabOperations.Controls.Add(Me.tpgAbout)
+        Me.tabOperations.Location = New System.Drawing.Point(0, 0)
+        Me.tabOperations.Name = "tabOperations"
+        Me.tabOperations.SelectedIndex = 0
+        Me.tabOperations.Size = New System.Drawing.Size(640, 473)
+        Me.tabOperations.TabIndex = 0
+        '
+        'tpgCombine
+        '
+        Me.tpgCombine.Controls.Add(Me.btnCombineOutputPath)
+        Me.tpgCombine.Controls.Add(Me.lblOutput)
+        Me.tpgCombine.Controls.Add(Me.txtCombineOutputPath)
+        Me.tpgCombine.Controls.Add(Me.btnCombine)
+        Me.tpgCombine.Controls.Add(Me.dgvCombineVideos)
+        Me.tpgCombine.Controls.Add(Me.btnAddCombineVideos)
+        Me.tpgCombine.Location = New System.Drawing.Point(4, 22)
+        Me.tpgCombine.Name = "tpgCombine"
+        Me.tpgCombine.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpgCombine.Size = New System.Drawing.Size(632, 447)
+        Me.tpgCombine.TabIndex = 0
+        Me.tpgCombine.Text = "Combine Videos"
+        Me.tpgCombine.UseVisualStyleBackColor = True
+        '
+        'btnCombineOutputPath
+        '
+        Me.btnCombineOutputPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCombineOutputPath.Location = New System.Drawing.Point(451, 6)
+        Me.btnCombineOutputPath.Name = "btnCombineOutputPath"
+        Me.btnCombineOutputPath.Size = New System.Drawing.Size(37, 23)
+        Me.btnCombineOutputPath.TabIndex = 6
+        Me.btnCombineOutputPath.Text = "..."
+        Me.btnCombineOutputPath.UseVisualStyleBackColor = True
+        '
+        'lblOutput
+        '
+        Me.lblOutput.AutoSize = True
+        Me.lblOutput.Location = New System.Drawing.Point(99, 11)
+        Me.lblOutput.Name = "lblOutput"
+        Me.lblOutput.Size = New System.Drawing.Size(42, 13)
+        Me.lblOutput.TabIndex = 5
+        Me.lblOutput.Text = "Output:"
+        '
+        'txtCombineOutputPath
+        '
+        Me.txtCombineOutputPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtCombineOutputPath.Location = New System.Drawing.Point(147, 8)
+        Me.txtCombineOutputPath.Name = "txtCombineOutputPath"
+        Me.txtCombineOutputPath.Size = New System.Drawing.Size(298, 20)
+        Me.txtCombineOutputPath.TabIndex = 4
+        '
+        'btnCombine
+        '
+        Me.btnCombine.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCombine.Location = New System.Drawing.Point(549, 6)
+        Me.btnCombine.Name = "btnCombine"
+        Me.btnCombine.Size = New System.Drawing.Size(75, 23)
+        Me.btnCombine.TabIndex = 3
+        Me.btnCombine.Text = "Combine"
+        Me.btnCombine.UseVisualStyleBackColor = True
+        '
+        'dgvCombineVideos
+        '
+        Me.dgvCombineVideos.AllowDrop = True
+        Me.dgvCombineVideos.AllowUserToAddRows = False
+        Me.dgvCombineVideos.AllowUserToResizeRows = False
+        Me.dgvCombineVideos.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgvCombineVideos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvCombineVideos.Location = New System.Drawing.Point(8, 35)
+        Me.dgvCombineVideos.Name = "dgvCombineVideos"
+        Me.dgvCombineVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgvCombineVideos.Size = New System.Drawing.Size(616, 409)
+        Me.dgvCombineVideos.TabIndex = 2
+        '
+        'btnAddCombineVideos
+        '
+        Me.btnAddCombineVideos.Location = New System.Drawing.Point(8, 6)
+        Me.btnAddCombineVideos.Name = "btnAddCombineVideos"
+        Me.btnAddCombineVideos.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddCombineVideos.TabIndex = 1
+        Me.btnAddCombineVideos.Text = "Add Videos"
+        Me.btnAddCombineVideos.UseVisualStyleBackColor = True
+        '
+        'tpgSilence
+        '
+        Me.tpgSilence.Controls.Add(Me.btnRemoveAudioProcess)
+        Me.tpgSilence.Controls.Add(Me.btnRemoveAudioDest)
+        Me.tpgSilence.Controls.Add(Me.txtRemoveAudioDest)
+        Me.tpgSilence.Controls.Add(Me.lblRemoveAudioDest)
+        Me.tpgSilence.Controls.Add(Me.btnRemoveAudioSource)
+        Me.tpgSilence.Controls.Add(Me.txtRemoveAudioSource)
+        Me.tpgSilence.Controls.Add(Me.lblRemoveAudioSource)
+        Me.tpgSilence.Location = New System.Drawing.Point(4, 22)
+        Me.tpgSilence.Name = "tpgSilence"
+        Me.tpgSilence.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpgSilence.Size = New System.Drawing.Size(632, 447)
+        Me.tpgSilence.TabIndex = 1
+        Me.tpgSilence.Text = "Remove Audio"
+        Me.tpgSilence.UseVisualStyleBackColor = True
+        '
+        'btnRemoveAudioProcess
+        '
+        Me.btnRemoveAudioProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveAudioProcess.Location = New System.Drawing.Point(508, 70)
+        Me.btnRemoveAudioProcess.Name = "btnRemoveAudioProcess"
+        Me.btnRemoveAudioProcess.Size = New System.Drawing.Size(75, 23)
+        Me.btnRemoveAudioProcess.TabIndex = 11
+        Me.btnRemoveAudioProcess.Text = "Process"
+        Me.btnRemoveAudioProcess.UseVisualStyleBackColor = True
+        '
+        'btnRemoveAudioDest
+        '
+        Me.btnRemoveAudioDest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveAudioDest.Location = New System.Drawing.Point(589, 30)
+        Me.btnRemoveAudioDest.Name = "btnRemoveAudioDest"
+        Me.btnRemoveAudioDest.Size = New System.Drawing.Size(37, 23)
+        Me.btnRemoveAudioDest.TabIndex = 10
+        Me.btnRemoveAudioDest.Text = "..."
+        Me.btnRemoveAudioDest.UseVisualStyleBackColor = True
+        '
+        'txtRemoveAudioDest
+        '
+        Me.txtRemoveAudioDest.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtRemoveAudioDest.Location = New System.Drawing.Point(106, 32)
+        Me.txtRemoveAudioDest.Name = "txtRemoveAudioDest"
+        Me.txtRemoveAudioDest.Size = New System.Drawing.Size(477, 20)
+        Me.txtRemoveAudioDest.TabIndex = 9
+        '
+        'lblRemoveAudioDest
+        '
+        Me.lblRemoveAudioDest.AutoSize = True
+        Me.lblRemoveAudioDest.Location = New System.Drawing.Point(8, 35)
+        Me.lblRemoveAudioDest.Name = "lblRemoveAudioDest"
+        Me.lblRemoveAudioDest.Size = New System.Drawing.Size(93, 13)
+        Me.lblRemoveAudioDest.TabIndex = 8
+        Me.lblRemoveAudioDest.Text = "Video Destination:"
+        '
+        'btnRemoveAudioSource
+        '
+        Me.btnRemoveAudioSource.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveAudioSource.Location = New System.Drawing.Point(589, 4)
+        Me.btnRemoveAudioSource.Name = "btnRemoveAudioSource"
+        Me.btnRemoveAudioSource.Size = New System.Drawing.Size(37, 23)
+        Me.btnRemoveAudioSource.TabIndex = 7
+        Me.btnRemoveAudioSource.Text = "..."
+        Me.btnRemoveAudioSource.UseVisualStyleBackColor = True
+        '
+        'txtRemoveAudioSource
+        '
+        Me.txtRemoveAudioSource.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtRemoveAudioSource.Location = New System.Drawing.Point(106, 6)
+        Me.txtRemoveAudioSource.Name = "txtRemoveAudioSource"
+        Me.txtRemoveAudioSource.Size = New System.Drawing.Size(477, 20)
+        Me.txtRemoveAudioSource.TabIndex = 1
+        '
+        'lblRemoveAudioSource
+        '
+        Me.lblRemoveAudioSource.AutoSize = True
+        Me.lblRemoveAudioSource.Location = New System.Drawing.Point(26, 9)
+        Me.lblRemoveAudioSource.Name = "lblRemoveAudioSource"
+        Me.lblRemoveAudioSource.Size = New System.Drawing.Size(74, 13)
+        Me.lblRemoveAudioSource.TabIndex = 0
+        Me.lblRemoveAudioSource.Text = "Video Source:"
+        '
+        'tpgRotate
+        '
+        Me.tpgRotate.Controls.Add(Me.optCounterClockFlip)
+        Me.tpgRotate.Controls.Add(Me.optClock)
+        Me.tpgRotate.Controls.Add(Me.optCounterClock)
+        Me.tpgRotate.Controls.Add(Me.optClockFlip)
+        Me.tpgRotate.Controls.Add(Me.btnRotateProcess)
+        Me.tpgRotate.Controls.Add(Me.btnRotateVideoDest)
+        Me.tpgRotate.Controls.Add(Me.txtRotateVideoDest)
+        Me.tpgRotate.Controls.Add(Me.lblRotateVideoDest)
+        Me.tpgRotate.Controls.Add(Me.btnRotateVideoSource)
+        Me.tpgRotate.Controls.Add(Me.txtRotateVideoSource)
+        Me.tpgRotate.Controls.Add(Me.lblRotateVideoSource)
+        Me.tpgRotate.Location = New System.Drawing.Point(4, 22)
+        Me.tpgRotate.Name = "tpgRotate"
+        Me.tpgRotate.Size = New System.Drawing.Size(632, 447)
+        Me.tpgRotate.TabIndex = 2
+        Me.tpgRotate.Text = "Rotate Video"
+        Me.tpgRotate.UseVisualStyleBackColor = True
+        '
+        'optCounterClockFlip
+        '
+        Me.optCounterClockFlip.AutoSize = True
+        Me.optCounterClockFlip.Location = New System.Drawing.Point(106, 90)
+        Me.optCounterClockFlip.Name = "optCounterClockFlip"
+        Me.optCounterClockFlip.Size = New System.Drawing.Size(132, 17)
+        Me.optCounterClockFlip.TabIndex = 22
+        Me.optCounterClockFlip.TabStop = True
+        Me.optCounterClockFlip.Text = "Counter Clockwise-Flip"
+        Me.optCounterClockFlip.UseVisualStyleBackColor = True
+        '
+        'optClock
+        '
+        Me.optClock.AutoSize = True
+        Me.optClock.Location = New System.Drawing.Point(106, 113)
+        Me.optClock.Name = "optClock"
+        Me.optClock.Size = New System.Drawing.Size(73, 17)
+        Me.optClock.TabIndex = 21
+        Me.optClock.TabStop = True
+        Me.optClock.Text = "Clockwise"
+        Me.optClock.UseVisualStyleBackColor = True
+        '
+        'optCounterClock
+        '
+        Me.optCounterClock.AutoSize = True
+        Me.optCounterClock.Location = New System.Drawing.Point(106, 136)
+        Me.optCounterClock.Name = "optCounterClock"
+        Me.optCounterClock.Size = New System.Drawing.Size(113, 17)
+        Me.optCounterClock.TabIndex = 20
+        Me.optCounterClock.TabStop = True
+        Me.optCounterClock.Text = "Counter Clockwise"
+        Me.optCounterClock.UseVisualStyleBackColor = True
+        '
+        'optClockFlip
+        '
+        Me.optClockFlip.AutoSize = True
+        Me.optClockFlip.Location = New System.Drawing.Point(106, 67)
+        Me.optClockFlip.Name = "optClockFlip"
+        Me.optClockFlip.Size = New System.Drawing.Size(92, 17)
+        Me.optClockFlip.TabIndex = 19
+        Me.optClockFlip.TabStop = True
+        Me.optClockFlip.Text = "Clockwise-Flip"
+        Me.optClockFlip.UseVisualStyleBackColor = True
+        '
+        'btnRotateProcess
+        '
+        Me.btnRotateProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRotateProcess.Location = New System.Drawing.Point(508, 82)
+        Me.btnRotateProcess.Name = "btnRotateProcess"
+        Me.btnRotateProcess.Size = New System.Drawing.Size(75, 23)
+        Me.btnRotateProcess.TabIndex = 18
+        Me.btnRotateProcess.Text = "Process"
+        Me.btnRotateProcess.UseVisualStyleBackColor = True
+        '
+        'btnRotateVideoDest
+        '
+        Me.btnRotateVideoDest.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRotateVideoDest.Location = New System.Drawing.Point(589, 30)
+        Me.btnRotateVideoDest.Name = "btnRotateVideoDest"
+        Me.btnRotateVideoDest.Size = New System.Drawing.Size(37, 23)
+        Me.btnRotateVideoDest.TabIndex = 17
+        Me.btnRotateVideoDest.Text = "..."
+        Me.btnRotateVideoDest.UseVisualStyleBackColor = True
+        '
+        'txtRotateVideoDest
+        '
+        Me.txtRotateVideoDest.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtRotateVideoDest.Location = New System.Drawing.Point(106, 32)
+        Me.txtRotateVideoDest.Name = "txtRotateVideoDest"
+        Me.txtRotateVideoDest.Size = New System.Drawing.Size(477, 20)
+        Me.txtRotateVideoDest.TabIndex = 16
+        '
+        'lblRotateVideoDest
+        '
+        Me.lblRotateVideoDest.AutoSize = True
+        Me.lblRotateVideoDest.Location = New System.Drawing.Point(7, 35)
+        Me.lblRotateVideoDest.Name = "lblRotateVideoDest"
+        Me.lblRotateVideoDest.Size = New System.Drawing.Size(93, 13)
+        Me.lblRotateVideoDest.TabIndex = 15
+        Me.lblRotateVideoDest.Text = "Video Destination:"
+        '
+        'btnRotateVideoSource
+        '
+        Me.btnRotateVideoSource.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRotateVideoSource.Location = New System.Drawing.Point(589, 4)
+        Me.btnRotateVideoSource.Name = "btnRotateVideoSource"
+        Me.btnRotateVideoSource.Size = New System.Drawing.Size(37, 23)
+        Me.btnRotateVideoSource.TabIndex = 14
+        Me.btnRotateVideoSource.Text = "..."
+        Me.btnRotateVideoSource.UseVisualStyleBackColor = True
+        '
+        'txtRotateVideoSource
+        '
+        Me.txtRotateVideoSource.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtRotateVideoSource.Location = New System.Drawing.Point(106, 6)
+        Me.txtRotateVideoSource.Name = "txtRotateVideoSource"
+        Me.txtRotateVideoSource.Size = New System.Drawing.Size(477, 20)
+        Me.txtRotateVideoSource.TabIndex = 13
+        '
+        'lblRotateVideoSource
+        '
+        Me.lblRotateVideoSource.AutoSize = True
+        Me.lblRotateVideoSource.Location = New System.Drawing.Point(26, 9)
+        Me.lblRotateVideoSource.Name = "lblRotateVideoSource"
+        Me.lblRotateVideoSource.Size = New System.Drawing.Size(74, 13)
+        Me.lblRotateVideoSource.TabIndex = 12
+        Me.lblRotateVideoSource.Text = "Video Source:"
+        '
+        'tpgConsole
+        '
+        Me.tpgConsole.Controls.Add(Me.txtConsole)
+        Me.tpgConsole.Location = New System.Drawing.Point(4, 22)
+        Me.tpgConsole.Name = "tpgConsole"
+        Me.tpgConsole.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpgConsole.Size = New System.Drawing.Size(632, 447)
+        Me.tpgConsole.TabIndex = 3
+        Me.tpgConsole.Text = "Console"
+        Me.tpgConsole.UseVisualStyleBackColor = True
+        '
+        'txtConsole
+        '
+        Me.txtConsole.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtConsole.Location = New System.Drawing.Point(3, 3)
+        Me.txtConsole.Multiline = True
+        Me.txtConsole.Name = "txtConsole"
+        Me.txtConsole.Size = New System.Drawing.Size(626, 441)
+        Me.txtConsole.TabIndex = 0
+        '
+        'tpgAbout
+        '
+        Me.tpgAbout.Controls.Add(Me.lblAbout)
+        Me.tpgAbout.Location = New System.Drawing.Point(4, 22)
+        Me.tpgAbout.Name = "tpgAbout"
+        Me.tpgAbout.Padding = New System.Windows.Forms.Padding(3)
+        Me.tpgAbout.Size = New System.Drawing.Size(632, 447)
+        Me.tpgAbout.TabIndex = 4
+        Me.tpgAbout.Text = "About"
+        Me.tpgAbout.UseVisualStyleBackColor = True
+        '
+        'lblAbout
+        '
+        Me.lblAbout.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lblAbout.Location = New System.Drawing.Point(3, 3)
+        Me.lblAbout.Name = "lblAbout"
+        Me.lblAbout.Size = New System.Drawing.Size(626, 441)
+        Me.lblAbout.TabIndex = 0
+        Me.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.slblCombineStatus, Me.slblRemoveAudioStatus, Me.slblRotateVideoStatus})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 476)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(640, 22)
+        Me.StatusStrip1.TabIndex = 1
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'slblCombineStatus
+        '
+        Me.slblCombineStatus.Name = "slblCombineStatus"
+        Me.slblCombineStatus.Size = New System.Drawing.Size(0, 17)
+        '
+        'slblRemoveAudioStatus
+        '
+        Me.slblRemoveAudioStatus.Name = "slblRemoveAudioStatus"
+        Me.slblRemoveAudioStatus.Size = New System.Drawing.Size(0, 17)
+        '
+        'slblRotateVideoStatus
+        '
+        Me.slblRotateVideoStatus.Name = "slblRotateVideoStatus"
+        Me.slblRotateVideoStatus.Size = New System.Drawing.Size(0, 17)
+        '
+        'Main
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(640, 498)
+        Me.Controls.Add(Me.StatusStrip1)
+        Me.Controls.Add(Me.tabOperations)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Name = "Main"
+        Me.Text = "Quick Video Editing"
+        Me.tabOperations.ResumeLayout(False)
+        Me.tpgCombine.ResumeLayout(False)
+        Me.tpgCombine.PerformLayout()
+        CType(Me.dgvCombineVideos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tpgSilence.ResumeLayout(False)
+        Me.tpgSilence.PerformLayout()
+        Me.tpgRotate.ResumeLayout(False)
+        Me.tpgRotate.PerformLayout()
+        Me.tpgConsole.ResumeLayout(False)
+        Me.tpgConsole.PerformLayout()
+        Me.tpgAbout.ResumeLayout(False)
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+
+    Friend WithEvents tabOperations As TabControl
+    Friend WithEvents tpgCombine As TabPage
+    Friend WithEvents tpgSilence As TabPage
+    Friend WithEvents tpgRotate As TabPage
+    Friend WithEvents btnAddCombineVideos As Button
+    Friend WithEvents dgvCombineVideos As DataGridView
+    Friend WithEvents btnCombine As Button
+    Friend WithEvents tpgConsole As TabPage
+    Friend WithEvents txtConsole As TextBox
+    Friend WithEvents lblOutput As Label
+    Friend WithEvents txtCombineOutputPath As TextBox
+    Friend WithEvents btnCombineOutputPath As Button
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents slblCombineStatus As ToolStripStatusLabel
+    Friend WithEvents btnRemoveAudioProcess As Button
+    Friend WithEvents btnRemoveAudioDest As Button
+    Friend WithEvents txtRemoveAudioDest As TextBox
+    Friend WithEvents lblRemoveAudioDest As Label
+    Friend WithEvents btnRemoveAudioSource As Button
+    Friend WithEvents txtRemoveAudioSource As TextBox
+    Friend WithEvents lblRemoveAudioSource As Label
+    Friend WithEvents slblRemoveAudioStatus As ToolStripStatusLabel
+    Friend WithEvents optCounterClockFlip As RadioButton
+    Friend WithEvents optClock As RadioButton
+    Friend WithEvents optCounterClock As RadioButton
+    Friend WithEvents optClockFlip As RadioButton
+    Friend WithEvents btnRotateProcess As Button
+    Friend WithEvents btnRotateVideoDest As Button
+    Friend WithEvents txtRotateVideoDest As TextBox
+    Friend WithEvents lblRotateVideoDest As Label
+    Friend WithEvents btnRotateVideoSource As Button
+    Friend WithEvents txtRotateVideoSource As TextBox
+    Friend WithEvents lblRotateVideoSource As Label
+    Friend WithEvents slblRotateVideoStatus As ToolStripStatusLabel
+    Friend WithEvents tpgAbout As TabPage
+    Friend WithEvents lblAbout As Label
+End Class
