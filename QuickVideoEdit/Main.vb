@@ -44,6 +44,8 @@
             txtRotateVideoSource.Text = My.Settings.LastRotateVideoSource
             txtSpliceSource.Text = My.Settings.LastSpliceVideoSource
             txtSpliceDest.Text = My.Settings.LastSpliceVideoDest
+            trkVolume.Value = My.Settings.LastVolume
+            Call trkVolume_Scroll(trkVolume, New EventArgs)
 
             Select Case My.Settings.LastRotate
                 Case 1
@@ -75,6 +77,8 @@
             End Try
 
             dgvCombineVideos.DataSource = mdtCombineVideos
+
+            tabOperations.SelectedIndex = My.Settings.LastSelectedTabIndex
 
         Catch ex As Exception
             MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -496,7 +500,7 @@
                 p.BeginErrorReadLine()
 
                 Do While Not p.HasExited
-                    Application.DoEvents
+                    Application.DoEvents()
                     Threading.Thread.Sleep(10)
                 Loop
 
@@ -770,8 +774,10 @@
             mPlayer.Renderer.KeepAspectRatio = True
             If Not mPlayer.LoadMedia Then
                 mPlayer.Reset()
+                MessageBox.Show("Unable to load media", "Load Media Failure",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                trkSplice.Maximum = mPlayer.TotalTime
+                trkSplice.Maximum = mPlayer.TotalTime / 1000
             End If
 
         Catch ex As Exception
@@ -865,11 +871,15 @@
 
 #Region " Functions "
 
-    Private Sub UpdateTime(value As Decimal)
+    Private Function GetTimeString(value As Decimal) As String
 
         Dim ts As TimeSpan = New TimeSpan(value)
-        lblSpliceCurrentTime.Text = ts.Hours.ToString("00") & ":" & ts.Minutes.ToString("00") & ":" & ts.Seconds.ToString("00") & "." & ts.Milliseconds.ToString("000")
+        Return ts.Hours.ToString("00") & ":" & ts.Minutes.ToString("00") & ":" & ts.Seconds.ToString("00") & "." & ts.Milliseconds.ToString("000")
 
+    End Function
+
+    Private Sub UpdateTime(value As Decimal)
+        txtSpliceCurrentTime.Text = GetTimeString(value)
     End Sub
 
     Private Sub WriteXML()
@@ -946,6 +956,17 @@
 
 #Region " Other Event Handlers "
 
+    Private Sub tabOperations_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tabOperations.SelectedIndexChanged
+
+        If Not mbolSaveState Then
+            Return
+        End If
+
+        My.Settings.LastSelectedTabIndex = tabOperations.SelectedIndex
+        My.Settings.Save()
+
+    End Sub
+
     Private Sub optClock_CheckedChanged(sender As Object, e As EventArgs) Handles optClock.CheckedChanged,
             optClockFlip.CheckedChanged, optCounterClock.CheckedChanged, optCounterClockFlip.CheckedChanged
 
@@ -998,7 +1019,7 @@
         Dim decValue As Decimal = mPlayer.CurrentTime
         If decValue >= 0 Then
 
-            trkSplice.Value = decValue
+            trkSplice.Value = decValue / 1000
             Call UpdateTime(decValue)
 
         End If
@@ -1014,15 +1035,244 @@
 
     End Sub
 
+    Private tpTime As ToolTip = Nothing
+
     Private Sub trkSplice_Scroll(sender As Object, e As EventArgs) Handles trkSplice.Scroll
+
+        Static sBolOnce As Boolean = False
+        Dim bolSetOnce As Boolean = False
+
+        Try
+
+            If sBolOnce Then
+                Return
+            End If
+
+            sBolOnce = True
+            bolSetOnce = True
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            mPlayer.CurrentTime = CDec(trkSplice.Value) * 1000D
+            Debug.WriteLine("Scroll: " & mPlayer.CurrentTime)
+            If Not mPlayer.isPlaying Then
+                mPlayer.Pause()
+            End If
+
+            If mbolSaveState Then
+
+                If tpTime IsNot Nothing Then
+                    tpTime.Dispose()
+                    tpTime = Nothing
+                End If
+
+                If MouseButtons And MouseButtons.Left = MouseButtons.Left Then
+
+                    tpTime = New ToolTip
+                    tpTime.Show(GetTimeString(mPlayer.CurrentTime), Me,
+                                Me.PointToClient(Form.MousePosition).X,
+                                trkSplice.Location.Y + (trkSplice.Height / 2))
+
+                End If
+
+            End If
+
+        Catch ex As Exception
+            Debug.WriteLine(ex)
+        Finally
+            If bolSetOnce Then
+                sBolOnce = False
+            End If
+        End Try
+
+
+    End Sub
+
+    Private Sub trkSplice_MouseUp(sender As Object, e As MouseEventArgs) Handles trkSplice.MouseUp
+
+        If tpTime IsNot Nothing Then
+            tpTime.Dispose()
+            tpTime = Nothing
+        End If
+
+    End Sub
+
+    Private Sub trkSplice_MouseLeave(sender As Object, e As EventArgs) Handles trkSplice.MouseLeave
+
+        If tpTime IsNot Nothing Then
+            tpTime.Dispose()
+            tpTime = Nothing
+        End If
+
+    End Sub
+
+    Private tpVolume As ToolTip = Nothing
+
+    Private Sub trkVolume_Scroll(sender As Object, e As EventArgs) Handles trkVolume.Scroll
 
         If mPlayer Is Nothing Then
             Return
         End If
 
-        mPlayer.CurrentTime = trkSplice.Value
+        mPlayer.Volume = trkVolume.Value
+
+        If mbolSaveState Then
+
+            If tpVolume IsNot Nothing Then
+                tpVolume.Dispose()
+                tpVolume = Nothing
+            End If
+
+            If MouseButtons And MouseButtons.Left = MouseButtons.Left Then
+
+                tpVolume = New ToolTip
+                tpVolume.Show(trkVolume.Value, Me,
+                        trkVolume.Location.X + (trkVolume.Width / 2),
+                        Me.PointToClient(Form.MousePosition).Y)
+
+            End If
+
+            My.Settings.LastVolume = trkVolume.Value
+            My.Settings.Save()
+
+        End If
 
     End Sub
+
+    Private Sub trkVolume_MouseUp(sender As Object, e As MouseEventArgs) Handles trkVolume.MouseUp
+
+        If tpVolume IsNot Nothing Then
+            tpVolume.Dispose()
+            tpVolume = Nothing
+        End If
+
+    End Sub
+
+    Private Sub trkVolume_MouseLeave(sender As Object, e As EventArgs) Handles trkVolume.MouseLeave
+
+        If tpVolume IsNot Nothing Then
+            tpVolume.Dispose()
+            tpVolume = Nothing
+        End If
+
+    End Sub
+
+    Private Sub txtSpliceCurrentTime_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSpliceCurrentTime.KeyPress
+
+    End Sub
+
+    Private Sub btnSpliceCurrentTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceCurrentTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceCurrentTime.Text, ts) Then
+                Call UpdateTime(CDec(ts.Ticks))
+                mPlayer.CurrentTime = ts.Ticks
+            Else
+                Call UpdateTime(CDec(mPlayer.CurrentTime))
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceStartTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceStartTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            If String.IsNullOrWhiteSpace(txtSpliceStartTime.Text) Then
+                txtSpliceEndTime.Text = GetTimeString(0)
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceStartTime.Text, ts) Then
+                txtSpliceStartTime.Text = GetTimeString(ts.Ticks)
+            Else
+                txtSpliceStartTime.Undo()
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceEndTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            If String.IsNullOrWhiteSpace(txtSpliceEndTime.Text) Then
+                txtSpliceEndTime.Text = GetTimeString(mPlayer.TotalTime)
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceEndTime.Text, ts) Then
+                txtSpliceEndTime.Text = GetTimeString(ts.Ticks)
+            Else
+                txtSpliceEndTime.Undo()
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub txtSpliceCurrentTime_GotFocus(sender As Object, e As EventArgs) Handles txtSpliceCurrentTime.GotFocus
+        Me.AcceptButton = btnSpliceCurrentTimePlaceholder
+    End Sub
+
+    Private Sub txtSpliceCurrentTime_LostFocus(sender As Object, e As EventArgs) Handles txtSpliceCurrentTime.LostFocus
+        Me.AcceptButton = Nothing
+    End Sub
+
+    Private Sub txtSpliceEndTime_LostFocus(sender As Object, e As EventArgs) Handles txtSpliceEndTime.LostFocus
+        Me.AcceptButton = Nothing
+    End Sub
+
+    Private Sub txtSpliceEndTime_GotFocus(sender As Object, e As EventArgs) Handles txtSpliceEndTime.GotFocus
+        Me.AcceptButton = btnSpliceEndTimePlaceholder
+    End Sub
+
+    Private Sub txtSpliceStartTime_GotFocus(sender As Object, e As EventArgs) Handles txtSpliceStartTime.GotFocus
+        Me.AcceptButton = btnSpliceStartTimePlaceholder
+    End Sub
+
+    Private Sub txtSpliceStartTime_LostFocus(sender As Object, e As EventArgs) Handles txtSpliceStartTime.LostFocus
+        Me.AcceptButton = Nothing
+    End Sub
+
+    Private Sub btnSpliceTime_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTime.Click,
+        btnSpliceStartTime.Click
+
+        Select Case sender
+            Case btnSpliceStartTime
+                txtSpliceStartTime.Text = GetTimeString(mPlayer.CurrentTime)
+            Case btnSpliceEndTime
+                txtSpliceEndTime.Text = GetTimeString(mPlayer.CurrentTime)
+        End Select
+
+    End Sub
+
 
 #End Region
 

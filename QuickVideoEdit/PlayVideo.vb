@@ -17,10 +17,13 @@ Public Class PlayVideo
     Private rot As DsROTEntry = Nothing
     Private render As Rendering = Nothing
     Private vmr As IBaseFilter = Nothing
+    Private mibaAudio As IBasicAudio = Nothing
 
     Private mbolThreadContinue As Boolean = False
     Private mbolDisposing As Boolean = False
     Private mthdTime As Threading.Thread = Nothing
+
+    Private mintVolume As Integer = 0
 
 #End Region
 
@@ -101,6 +104,33 @@ Public Class PlayVideo
         End Set
     End Property
 
+    Public Property Volume As Integer
+        Get
+            Return mintVolume
+        End Get
+        Set(value As Integer)
+
+            If value > 0 Then
+                value = 0
+            End If
+
+            If value < -10000 Then
+                value = -10000
+            End If
+
+            If mintVolume <> value Then
+
+                mintVolume = value
+
+                If mibaAudio IsNot Nothing Then
+                    mibaAudio.put_Volume(mintVolume)
+                End If
+
+            End If
+
+        End Set
+    End Property
+
 #End Region
 
 #Region " Functions "
@@ -148,6 +178,11 @@ Public Class PlayVideo
         hr = fg.RenderFile(Me.MediaFilePath, "")
 
         render.VMRFilter = vmr
+
+        mibaAudio = FilterUtils.FindInterface(fg, FilterUtils.Interfaces.AMDirectSound)
+        If mibaAudio IsNot Nothing Then
+            mibaAudio.put_Volume(mintVolume)
+        End If
 
         mbolThreadContinue = True
         mthdTime = New Threading.Thread(AddressOf TimeThread)
@@ -356,6 +391,11 @@ Public Class PlayVideo
 
             If fg IsNot Nothing Then
                 DirectCast(fg, IMediaControl).Stop()
+            End If
+
+            If mibaAudio IsNot Nothing Then
+                Marshal.ReleaseComObject(mibaAudio)
+                mibaAudio = Nothing
             End If
 
             If vmr IsNot Nothing Then
