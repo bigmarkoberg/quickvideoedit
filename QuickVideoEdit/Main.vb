@@ -786,6 +786,217 @@
 
     End Sub
 
+    Private Sub btnSpliceCurrentTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceCurrentTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceCurrentTime.Text, ts) Then
+                Call UpdateTime(CDec(ts.Ticks))
+                mPlayer.CurrentTime = ts.Ticks
+            Else
+                Call UpdateTime(CDec(mPlayer.CurrentTime))
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceStartTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceStartTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            If String.IsNullOrWhiteSpace(txtSpliceStartTime.Text) Then
+                txtSpliceStartTime.Text = GetTimeString(0)
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceStartTime.Text, ts) Then
+                txtSpliceStartTime.Text = GetTimeString(ts.Ticks)
+            Else
+                txtSpliceStartTime.Undo()
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceEndTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTimePlaceholder.Click
+
+        Try
+
+            If mPlayer Is Nothing Then
+                Return
+            End If
+
+            If String.IsNullOrWhiteSpace(txtSpliceEndTime.Text) Then
+                txtSpliceEndTime.Text = GetTimeString(mPlayer.TotalTime)
+                Return
+            End If
+
+            Dim ts As TimeSpan
+            If TimeSpan.TryParse(txtSpliceEndTime.Text, ts) Then
+                txtSpliceEndTime.Text = GetTimeString(ts.Ticks)
+            Else
+                txtSpliceEndTime.Undo()
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub btnSpliceTime_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTime.Click,
+        btnSpliceStartTime.Click
+
+        Select Case True
+            Case btnSpliceStartTime.Equals(sender)
+                txtSpliceStartTime.Text = GetTimeString(mPlayer.CurrentTime)
+            Case btnSpliceEndTime.Equals(sender)
+                txtSpliceEndTime.Text = GetTimeString(mPlayer.CurrentTime)
+        End Select
+
+    End Sub
+
+    Private Sub btnSpliceEndToStart_Click(sender As Object, e As EventArgs) Handles btnSpliceEndToStart.Click
+        txtSpliceStartTime.Text = txtSpliceEndTime.Text
+    End Sub
+
+    Private Sub btnSpliceProcess_Click(sender As Object, e As EventArgs) Handles btnSpliceProcess.Click
+
+        Try
+
+            btnSpliceProcess.Enabled = False
+
+            If String.IsNullOrWhiteSpace(txtSpliceSource.Text) Then
+
+                MessageBox.Show("Please select a source video to splice.", "No Source",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Try
+                    txtSpliceSource.Focus()
+                Catch ex As Exception
+                End Try
+
+                Return
+
+            ElseIf String.IsNullOrWhiteSpace(txtSpliceDest.Text) Then
+
+                MessageBox.Show("Please select a destination path to splice to.", "No Output",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Try
+                    txtSpliceDest.Focus()
+                Catch ex As Exception
+                End Try
+
+                Return
+
+            ElseIf mPlayer Is Nothing OrElse mPlayer.TotalTime <= 0 Then
+
+                MessageBox.Show("Please load a source video to splice.", "Unable to Load",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Try
+                    txtSpliceSource.Focus()
+                Catch ex As Exception
+                End Try
+                Return
+
+            ElseIf IO.File.Exists(txtSpliceDest.Text) Then
+
+                Select Case MessageBox.Show("Do you want to overwrite file at location:" & vbCrLf &
+                                            txtSpliceDest.Text, "Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Case DialogResult.No
+                        Return
+                End Select
+
+                IO.File.Delete(txtSpliceDest.Text)
+
+            End If
+
+            If String.IsNullOrWhiteSpace(txtSpliceStartTime.Text) Then
+                txtSpliceStartTime.Text = GetTimeString(0)
+            End If
+            If String.IsNullOrWhiteSpace(txtSpliceEndTime.Text) Then
+                txtSpliceEndTime.Text = GetTimeString(mPlayer.TotalTime)
+            End If
+
+            Dim strFFMPEG As String = WriteFFMPEG()
+
+            slblSpliceStatus.Text = "Splicing ...."
+
+            Using p As Process = New Process()
+
+                AddHandler p.ErrorDataReceived, Sub(s As Object, ex As DataReceivedEventArgs)
+                                                    If ex.Data IsNot Nothing Then
+                                                        txtConsole.Invoke(Sub()
+                                                                              txtConsole.AppendText(ex.Data & vbCrLf)
+                                                                          End Sub)
+                                                    End If
+                                                End Sub
+                AddHandler p.OutputDataReceived, Sub(s As Object, ex As DataReceivedEventArgs)
+                                                     If ex.Data IsNot Nothing Then
+                                                         txtConsole.Invoke(Sub()
+                                                                               txtConsole.AppendText(ex.Data & vbCrLf)
+                                                                           End Sub)
+                                                     End If
+                                                 End Sub
+
+                Dim tsStart As TimeSpan = TimeSpan.Parse(txtSpliceStartTime.Text)
+                Dim tsEnd As TimeSpan = TimeSpan.Parse(txtSpliceEndTime.Text)
+                Dim tsDuration As TimeSpan = tsEnd - tsStart
+
+                Dim pInfo As ProcessStartInfo = New ProcessStartInfo
+                pInfo.Arguments = "-i """ & txtSpliceSource.Text &
+                    """ -c copy -ss " & txtSpliceStartTime.Text &
+                    " -t " & GetTimeString(tsDuration.Ticks) & " """ & txtSpliceDest.Text & """"
+                pInfo.FileName = strFFMPEG
+
+                pInfo.RedirectStandardError = True
+                pInfo.RedirectStandardOutput = True
+                pInfo.CreateNoWindow = True
+                pInfo.UseShellExecute = False
+
+                p.StartInfo = pInfo
+                p.Start()
+
+                p.BeginOutputReadLine()
+                p.BeginErrorReadLine()
+
+                Do While Not p.HasExited
+                    Application.DoEvents()
+                    Threading.Thread.Sleep(10)
+                Loop
+
+            End Using
+
+            slblSpliceStatus.Text = "Splicing Complete"
+
+        Catch ex As Exception
+
+            MessageBox.Show("Error in [" & Reflection.MethodBase.GetCurrentMethod.Name & "]: " & ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            slblCombineStatus.Text = "Error Splicing"
+
+        Finally
+
+            btnSpliceProcess.Enabled = True
+
+        End Try
+
+    End Sub
+
 #End Region
 
 #Region " Drag-n-Drop "
@@ -1159,84 +1370,6 @@
 
     End Sub
 
-    Private Sub txtSpliceCurrentTime_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSpliceCurrentTime.KeyPress
-
-    End Sub
-
-    Private Sub btnSpliceCurrentTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceCurrentTimePlaceholder.Click
-
-        Try
-
-            If mPlayer Is Nothing Then
-                Return
-            End If
-
-            Dim ts As TimeSpan
-            If TimeSpan.TryParse(txtSpliceCurrentTime.Text, ts) Then
-                Call UpdateTime(CDec(ts.Ticks))
-                mPlayer.CurrentTime = ts.Ticks
-            Else
-                Call UpdateTime(CDec(mPlayer.CurrentTime))
-            End If
-
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Sub btnSpliceStartTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceStartTimePlaceholder.Click
-
-        Try
-
-            If mPlayer Is Nothing Then
-                Return
-            End If
-
-            If String.IsNullOrWhiteSpace(txtSpliceStartTime.Text) Then
-                txtSpliceEndTime.Text = GetTimeString(0)
-                Return
-            End If
-
-            Dim ts As TimeSpan
-            If TimeSpan.TryParse(txtSpliceStartTime.Text, ts) Then
-                txtSpliceStartTime.Text = GetTimeString(ts.Ticks)
-            Else
-                txtSpliceStartTime.Undo()
-            End If
-
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Sub btnSpliceEndTimePlaceholder_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTimePlaceholder.Click
-
-        Try
-
-            If mPlayer Is Nothing Then
-                Return
-            End If
-
-            If String.IsNullOrWhiteSpace(txtSpliceEndTime.Text) Then
-                txtSpliceEndTime.Text = GetTimeString(mPlayer.TotalTime)
-                Return
-            End If
-
-            Dim ts As TimeSpan
-            If TimeSpan.TryParse(txtSpliceEndTime.Text, ts) Then
-                txtSpliceEndTime.Text = GetTimeString(ts.Ticks)
-            Else
-                txtSpliceEndTime.Undo()
-            End If
-
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
     Private Sub txtSpliceCurrentTime_GotFocus(sender As Object, e As EventArgs) Handles txtSpliceCurrentTime.GotFocus
         Me.AcceptButton = btnSpliceCurrentTimePlaceholder
     End Sub
@@ -1260,19 +1393,6 @@
     Private Sub txtSpliceStartTime_LostFocus(sender As Object, e As EventArgs) Handles txtSpliceStartTime.LostFocus
         Me.AcceptButton = Nothing
     End Sub
-
-    Private Sub btnSpliceTime_Click(sender As Object, e As EventArgs) Handles btnSpliceEndTime.Click,
-        btnSpliceStartTime.Click
-
-        Select Case sender
-            Case btnSpliceStartTime
-                txtSpliceStartTime.Text = GetTimeString(mPlayer.CurrentTime)
-            Case btnSpliceEndTime
-                txtSpliceEndTime.Text = GetTimeString(mPlayer.CurrentTime)
-        End Select
-
-    End Sub
-
 
 #End Region
 

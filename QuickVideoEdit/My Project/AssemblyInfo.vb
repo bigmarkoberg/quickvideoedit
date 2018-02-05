@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("A tool to edit videos quickly for specific purposes")>
 <Assembly: AssemblyCompany("Mark Oberg")>
 <Assembly: AssemblyProduct("QuickVideoEdit")>
-<Assembly: AssemblyCopyright("Copyright © Mark Oberg 2017")>
+<Assembly: AssemblyCopyright("Copyright © Mark Oberg 2018")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1.0.1.0")>
+<Assembly: AssemblyFileVersion("1.0.1.0")>
